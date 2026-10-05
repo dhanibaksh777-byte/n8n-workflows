@@ -1,0 +1,154 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        0,
+        0
+      ],
+      "id": "cfaff356-05e9-4e4c-8b4c-d824b54730a0",
+      "name": "When chat message received",
+      "webhookId": "e11cd1dc-ff1b-4723-9e6d-4a92f8e17be8"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "you are professional email writer you write professional emails according to user command\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "35c23a43-53e6-4be3-a244-06d856b03eb6",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        240,
+        208
+      ],
+      "id": "1960f420-6e1b-4ebb-add7-b72cece884fb",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "openai/gpt-6-luna-pro",
+          "mode": "list",
+          "cachedResultName": "openai/gpt-6-luna-pro"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        96,
+        208
+      ],
+      "id": "36863e73-9f8d-4698-a2ad-63e8dc06e7d4",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "Qgs3IWkgDVnxmtiH",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('To', ``, 'string') }}",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        384,
+        208
+      ],
+      "id": "72ce3a43-531a-40af-a9fe-624e9449341b",
+      "name": "Send a message in Gmail",
+      "webhookId": "18ccb733-103f-422c-a601-563a881ddcb6",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "EcFAePWdA9ChyIL0",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "abd68f6f-2c27-4ee8-a6fe-07665c1307fb",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "40d52769c39194e042bab34ed5cebbe447f985517f4e3de3b299e43b4fa130e4"
+  },
+  "nodeGroups": [],
+  "id": "YxpnIjxAHVcYxHLt",
+  "tags": []
+}
